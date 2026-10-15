@@ -1,0 +1,8 @@
+label,"Sunspot eventual forecasting function"
+period,31
+"cycle 1, rise",4
+"cycle 1, descent",6
+"cycle 2, rise",4
+"cycle 2, descent",6
+"cycle 3, rise",4
+"cycle 3, descent",7

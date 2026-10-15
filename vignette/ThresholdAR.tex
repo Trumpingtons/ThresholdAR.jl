@@ -1,0 +1,97 @@
+% Pollis New Methods: nonlinear dynamics (threshold autoregression) — draft 1 (13 October 2026)
+% Compile with: latexmk -pdf nm_threshold.tex && latexmk -c
+\input{newmethods_style}
+
+\begin{document}
+
+\nmhead{Nonlinear dynamics}
+  {Threshold autoregression: SETAR models and limit cycles}
+  {Why do the lynx rise for six years and crash in three? Tong and Lim (1980), reproduced.}
+
+\factsheet
+  {\nmcite{tong1980}{Tong and Lim (1980)}, \emph{Journal of the Royal Statistical Society: Series B}, eqs.\ 9.1--9.3 and
+   Figs.\ 8, 10 and 12 (pp.\,259--262): the Canadian lynx trappings of 1821--1934 (PollisDatasets \fn{lynxmackenzie}) and
+   Wolf's yearly sunspot numbers of 1700--1955 (R's \fn{sunspot.year}, read into memory and not saved).}
+  {the self-exciting threshold autoregressive model (SETAR), its identification by AIC, and its eventual forecasting
+   function and limit cycles. No registered Julia package fits it.}
+  {\browse{Threshold autoregression: SETAR models and limit cycles}{ThresholdAR}}
+  {68 of 70 printed values to every digit, the other two in the last. Every coefficient of the three models to 4 decimals.}
+
+\nmsection{The problem}
+Many cycles in nature and in economies are not symmetric: the Canadian lynx population climbs for about six years and
+collapses in three; sunspot activity rises faster than it falls. A linear autoregression cannot produce this. Its cycles
+are symmetric, and without noise it dies out to its mean. \nmcite{tong1980}{Tong and Lim (1980)} let the autoregression
+change with the level of the series itself: one linear model below a threshold, another above it. So simple a
+nonlinearity gives asymmetric cycles, limit cycles and jumps.
+
+\nmsection{The method}
+In SETAR$(2; k_1, k_2)$ with delay $d$ and threshold $r$, the series follows
+\[ x_t = a_0^{(j)} + a_1^{(j)} x_{t-1} + \dots + a_{k_j}^{(j)} x_{t-k_j} + \varepsilon_t^{(j)}, \qquad
+   j = 1 \text{ if } x_{t-d} \le r, \; j = 2 \text{ otherwise}, \]
+and each regime is fitted by least squares to its own observations (\fn{setar}). \fn{identify} follows the paper's
+Section 8: the candidate thresholds are the 30--70 per cent points of $x_{t-d}$, each regime's order is the one with the
+smallest AIC, $n_j \ln(\mathrm{RSS}_j/n_j) + 2(k_j + 1)$, and the threshold the one with the smallest total.
+\fn{selectdelay} compares delays by the normalised AIC, the AIC per observation fitted. \fn{eventual} continues the
+series by the model without noise, the paper's eventual forecasting function; \fn{limitcycle} finds the cycle it settles
+into and \fn{risedescent} the rise and descent of each local cycle. \fn{predict} gives one-step-ahead predictions.
+
+\nmsection{What the tests show}
+\begin{valuetable}{@{}lXl@{}}
+\textbf{Test} & \textbf{What is compared} & \textbf{Agreement}\\\midrule
+Eq.\,9.1 & lynx SETAR(2; 8, 3): 13 coefficients & every one to 4 decimals\\
+Eq.\,9.2 & sunspots 1700--1920, SETAR(2; 4, 12): 18 coefficients & every one to 4 decimals\\
+Eq.\,9.3 & sunspots 1837--1924, SETAR(2; 4, 2): 8 coefficients & every one to 4 decimals\\
+p.\,259 & lynx limit cycle, period 9: 9 values & 8 to every digit, 1 in the last\\
+p.\,261 & sunspot cycle: period 31, rise and descent of 3 local cycles & all 7\\
+Eqs.\,9.1--9.3 & variances and NAICs: 12 values & 11 to every digit, 1 in the last\\
+Figs.\,8--12 & lynx root mean RSS, two sunspot prediction RMSEs & 2 to every digit, 1 in the last\\
+\end{valuetable}
+
+The last-digit differences, side by side (Julia against the paper):
+\begin{itemize}
+  \item The lynx limit cycle: 3.22805 vs 3.2281.
+  \item The NAIC of eq.\,9.3: 5.08178 vs 5.0817, which looks truncated rather than rounded.
+  \item The one-step-ahead RMSE of eq.\,9.3 over 1925--1944: 9.23414 vs 9.2342.
+\end{itemize}
+
+\nmsection{Two things the paper does not say}
+\nmsub{The variances and NAICs are those of a smaller model}
+The residual variances printed under each equation, and the NAICs of the figures, are not those of the models as stated.
+They are those of the same models with one lag fewer in each regime, and the NAIC penalises them as if they had the
+orders stated. All three models show it, to every printed digit: eq.\,9.2's variances 254.64, 66.80 and 153.71 are those of
+SETAR(2; 3, 11), and SETAR(2; 4, 12) gives 252.64, 66.55 and 152.65. The coefficients, the root mean RSS and the prediction
+errors are those of the models as stated: the 1921--1955 RMSE is 12.17397 for SETAR(2; 4, 12), as printed, and 12.35812
+for SETAR(2; 3, 11). It looks like an off-by-one in the program that printed the summaries.
+
+\nmsub{The lynx cycle is printed backwards}
+Read forwards, the printed lynx cycle rises for three years and falls for six; the text, and the model, rise for six
+and fall for three. The paper lists the cycle from its smallest value backwards.
+
+\nmsection{Still open}
+The identification does not arrive at the published models by itself: for the lynx the smallest NAIC is at $d = 3$,
+SETAR(2; 5, 9), and at $d = 2$ the search prefers SETAR(2; 10, 2). Tong and Lim chose with the eventual forecasting
+function, the prediction errors of held-out observations and judgement as well (pp.\,258--259); \fn{selectdelay} returns
+every candidate beside the one with the smallest NAIC. The published threshold itself, 3.1163, is on the grid: it is the
+60 per cent point of $x_{t-2}$, the 1902 count of 1,307 lynx.
+
+\nmsection{Further considerations}
+\begin{itemize}
+  \item \textbf{More regimes and other thresholds.} The paper's TARSO and TARSC models, with an outside series or several
+    series in the threshold, need data the paper does not give in full; they would need a published table with its data
+    before they become a new method here.
+  \item \textbf{Inference on the threshold.} Testing linearity against SETAR, and confidence sets for $r$, came later
+    (Chan, Tsay, Hansen); each would need its own published table to be tested against.
+  \item \textbf{Upstream.} SETAR would sit naturally in a Julia time-series package; the three equations are a
+    ready-made test for such a contribution.
+\end{itemize}
+
+\nmsection{References}
+{\footnotesize
+\nmref{tong1980}{Tong, H. and Lim, K.\,S. (1980). Threshold autoregression, limit cycles and cyclical data. \emph{Journal of the Royal Statistical Society: Series B} 42(3), 245--268. \nmdoi{10.1111/j.2517-6161.1980.tb01126.x}}
+\nmref{elton1942}{Elton, C. and Nicholson, M. (1942). The ten-year cycle in numbers of the lynx in Canada. \emph{Journal of Animal Ecology} 11(2), 215--244.}
+\nmref{campbell1977}{Campbell, M.\,J. and Walker, A.\,M. (1977). A survey of statistical work on the Mackenzie River series of annual Canadian lynx trappings for the years 1821--1934 and a new analysis. \emph{Journal of the Royal Statistical Society: Series A} 140(4), 411--431.}
+\nmref{data}{Data: the lynx counts from PollisDatasets (\fn{lynxmackenzie}); the sunspot numbers as distributed with R (\fn{sunspot.year}), read from R's source and not saved, since SILSO's licence does not allow them to be distributed with Pollis.}
+}
+
+\nmcredit
+\end{document}

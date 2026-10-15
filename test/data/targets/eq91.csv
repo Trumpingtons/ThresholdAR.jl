@@ -1,0 +1,14 @@
+label,"Eq. 9.1, lynx"
+"regime 1, constant",0.5239
+"regime 1, x(t-1)",1.0359
+"regime 1, x(t-2)",-0.1756
+"regime 1, x(t-3)",0.1753
+"regime 1, x(t-4)",-0.4339
+"regime 1, x(t-5)",0.3457
+"regime 1, x(t-6)",-0.3032
+"regime 1, x(t-7)",0.2165
+"regime 1, x(t-8)",0.0043
+"regime 2, constant",2.6559
+"regime 2, x(t-1)",1.4246
+"regime 2, x(t-2)",-1.1618
+"regime 2, x(t-3)",-0.1094

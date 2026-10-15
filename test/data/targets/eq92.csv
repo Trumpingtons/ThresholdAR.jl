@@ -1,0 +1,19 @@
+label,"Eq. 9.2, sunspots 1700-1920"
+"regime 1, constant",10.5440
+"regime 1, x(t-1)",1.6920
+"regime 1, x(t-2)",-1.1592
+"regime 1, x(t-3)",0.2367
+"regime 1, x(t-4)",0.1503
+"regime 2, constant",7.8041
+"regime 2, x(t-1)",0.7432
+"regime 2, x(t-2)",-0.0409
+"regime 2, x(t-3)",-0.2020
+"regime 2, x(t-4)",0.1730
+"regime 2, x(t-5)",-0.2266
+"regime 2, x(t-6)",0.0189
+"regime 2, x(t-7)",0.1612
+"regime 2, x(t-8)",-0.2564
+"regime 2, x(t-9)",0.3195
+"regime 2, x(t-10)",-0.3891
+"regime 2, x(t-11)",0.4306
+"regime 2, x(t-12)",-0.0397

@@ -1,0 +1,9 @@
+label,"Eq. 9.3, sunspots 1837-1924"
+"regime 1, constant",25.2120
+"regime 1, x(t-1)",0.9820
+"regime 1, x(t-2)",-0.0377
+"regime 1, x(t-3)",-0.6378
+"regime 1, x(t-4)",0.2454
+"regime 2, constant",0.3585
+"regime 2, x(t-1)",0.7569
+"regime 2, x(t-2)",-0.0531
