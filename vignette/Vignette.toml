@@ -1,0 +1,15 @@
+# The vignette of ThresholdAR.jl, written by Pollis (Compose > New Methods > Package and Publish) and shown in
+# Help > Documentation > Vignettes once the package is installed.
+
+article = "https://doi.org/10.1111/j.2517-6161.1980.tb01126.x"
+author = "Antonio Saragga Seabra"
+citation = "Tong, H. and Lim, K. S. (1980). Threshold autoregression, limit cycles and cyclical data. Journal of the Royal Statistical Society: Series B 42(3), 245-268."
+description = "Tong and Lim's self-exciting threshold autoregressive model with two regimes, SETAR(2; k1, k2): least-squares fit, identification of the threshold and the orders by AIC, choice of the delay by normalised AIC, one-step-ahead prediction, and the eventual forecasting function with its limit cycle."
+license = "MIT"
+method = "Threshold autoregression: SETAR models and limit cycles"
+package = "ThresholdAR"
+pdf = "ThresholdAR.pdf"
+repository = "https://github.com/Trumpingtons/ThresholdAR.jl"
+title = "Threshold autoregression: SETAR models and limit cycles"
+topic = "Nonlinear Dynamics"
+version = "0.2.0"

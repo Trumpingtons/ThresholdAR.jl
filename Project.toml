@@ -1,6 +1,6 @@
 name = "ThresholdAR"
 uuid = "69289f5e-e4c4-4d94-9bb4-a743e090b1a3"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Antonio Saragga Seabra"]
 
 [deps]

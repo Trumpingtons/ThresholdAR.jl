@@ -23,6 +23,10 @@ risedescent(cycle)  # the rise and descent of each local cycle
 
 [Threshold autoregression: SETAR models and limit cycles](vignette/ThresholdAR.pdf)
 
+## License
+
+MIT (see [LICENSE](LICENSE)).
+
 ## Tests
 
 The tests compute the published tables below from their data and check every printed value, rounded to the digits printed:
