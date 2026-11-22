@@ -21,7 +21,7 @@ risedescent(cycle)  # the rise and descent of each local cycle
 
 ## Vignette
 
-[Threshold autoregression: SETAR models and limit cycles](vignette/ThresholdAR.pdf)
+[Threshold autoregression: SETAR models and limit cycles](vignette/ThresholdAR.tex), its LaTeX source: Pollis compiles it in Help > Documentation > Package Vignettes.
 
 ## License
 
